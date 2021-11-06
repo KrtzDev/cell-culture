@@ -13,6 +13,7 @@ var columns = []
 func _ready():
 	hexTile = preload("res://tile.tscn")
 	create_grid()
+	initialize_grid()
  
 func calc_world_pos(var grid_pos : Vector2):
 	var offset := 0.0
@@ -31,11 +32,20 @@ func create_grid():
 		for y in range(gridHeight):
 			var tile = hexTile.instance()
 			var gridPos = Vector2(x, y)
+			
 			#configure tile
 			tile.set_name(str(x) + "|" + str(y))
 			tile.gridPos = gridPos
-			
+			if x == 0 or y==0 or x >= gridWidth -2 or y >= gridHeight -1:
+				tile.isObstacle = true
+				tile.set_name("obstacle")
+						
 			add_child(tile)
 			var worldPos = calc_world_pos(gridPos)
 			tile.set_translation(worldPos)
 			columns[x].append(tile)
+
+func initialize_grid():
+	for column in columns:
+		for cell in column:
+			cell.get_neighbours()

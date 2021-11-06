@@ -1,12 +1,16 @@
 tool
 extends Spatial
 
+var isObstacle = false
 var isAlive = false
 var gridPos = Vector2()
+var cellDivisionsLeft
+var neighbours
 
-func come_to_live():
+func come_to_live(mitAmount:int):
 	isAlive = true
 	self.visible = true
+	cellDivisionsLeft=mitAmount
 
 func die():
 	isAlive = false
@@ -50,4 +54,4 @@ func get_neighbours():
 	list.append(botLeft)
 	list.append(botRight)
 	
-	return list
+	neighbours = list
