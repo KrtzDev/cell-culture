@@ -7,8 +7,8 @@ onready var player_camera = $"Camera"
 var spin = 0.1
 var mouse_sensitivity = 2
 
-func _ready():
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+#func _ready():
+#	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _physics_process(delta):
 	player_camera.rotation_degrees.y = 180
@@ -20,7 +20,7 @@ func _physics_process(delta):
 func movement(_delta):
 	var dir = Vector3.ZERO
 	velocity = Vector3.ZERO
-
+	
 	if Input.is_action_pressed("ui_up"):
 		dir += transform.basis.z
 	elif Input.is_action_pressed("ui_down"):

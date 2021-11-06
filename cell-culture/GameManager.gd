@@ -1,8 +1,11 @@
 extends Spatial
 
 var grid = [[]] #list of all tile objects [column][row]
+var timeBetweenRounds = 0.5
+var roundSteps = 5
 var currRound := 0
-var spawnProtection := 5 #after how many rounds the minNeighbours rule is enforced
+var isRunning = false
+var spawnProtection := 11 #after how many rounds the minNeighbours rule is enforced
 
 var livingCellsEnemy = [] #list of all enemy cells
 var enemyStats = {
@@ -18,7 +21,7 @@ var enemyStats = {
 var livingCells = [] #list of all living player cells
 var playerStats = {
 	startCoords = Vector2(10,18),
-	minNeighbours = 1,
+	minNeighbours = 2,
 	maxNeighbours = 3,
 	mitosisAmount = 3,
 	direction = "random",
@@ -43,23 +46,37 @@ func _ready():
 	enemyCell.faction = "com"
 	enemyCell.come_to_live(enemyStats["mitosisAmount"])
 	livingCellsEnemy.append(enemyCell)
+	
+	show_cell_configuration()
+	update_stats()
 
 func _input(event):
-	if event.is_action_pressed("ui_accept"):
-		currRound += 1
-		print("Round " + str(currRound) + ":")
-		var tmpLivingCells = [] + livingCells
-		for cell in tmpLivingCells:
-			analyze_environment(cell)
-		print("nmbr of cells: ",livingCells.size())
-	
-		var tmpEnemyCells = [] + livingCellsEnemy
-		for cell in tmpEnemyCells:
-			analyze_environment(cell)
-		print("nmbr of enemy cells: ",livingCellsEnemy.size())
+	if event.is_action_pressed("ui_accept") && !isRunning:
+		isRunning = true
+		hide_cell_configuration()
+		
+		for i in range(roundSteps):
+			currRound += 1
+			#print("Round " + str(currRound) + ":")
+			var tmpLivingCells = [] + livingCells
+			for cell in tmpLivingCells:
+				analyze_environment(cell)
+			#print("nmbr of cells: ",livingCells.size())
+		
+			var tmpEnemyCells = [] + livingCellsEnemy
+			for cell in tmpEnemyCells:
+				analyze_environment(cell)
+			#print("nmbr of enemy cells: ",livingCellsEnemy.size())
+			
+			update_stats()
+			yield(get_tree().create_timer(timeBetweenRounds),"timeout")
+		
+		isRunning = false
+		show_cell_configuration()
 
 	if event.is_action_pressed("ui_cancel"):
-		get_tree().quit()
+		if (!isRunning):
+			toggle_cell_configuration()
 
 #abilities 
 func analyze_environment(activeCell):
@@ -89,7 +106,7 @@ func analyze_environment(activeCell):
 		var neighbourCell = get_cell_from_coords(neighbourCoord)
 		if neighbourCell.isAlive == false and neighbourCell.isObstacle == false:
 			inhabitableCells.append(neighbourCell)
-		elif neighbourCell.isAlive == true:
+		elif neighbourCell.isAlive == true && neighbourCell.faction == activeCell.faction:
 			livingNeighbours.append(neighbourCell)
 		if neighbourCell.faction == stats["enemy"]:
 			enemyNeighbours.append(neighbourCell)
@@ -240,3 +257,35 @@ func kill_cell(activeCell):
 func get_cell_from_coords(coords:Vector2):
 	var cell = grid[coords.x][coords.y]
 	return cell
+
+#ui
+func update_stats():
+	var playerCells = "\nPlayer Cells: " + str(livingCells.size())
+	var enemyCells = "\nEnemy Cells: " + str(livingCellsEnemy.size())
+	
+	var newText
+	newText = "\nRound: " + str(currRound) + "\n"
+	if livingCells.size() >= livingCellsEnemy.size():
+		newText += playerCells
+		newText += enemyCells
+	else:
+		newText += enemyCells
+		newText += playerCells
+	
+	
+	get_node("../Interface/Stats").text = newText
+
+func toggle_cell_configuration():
+	get_node("../Interface/Configuration Menu").visible = !get_node("../Interface/Configuration Menu").visible
+	if get_node("../Interface/Configuration Menu").visible == false:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+func hide_cell_configuration():
+	get_node("../Interface/Configuration Menu").visible = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+func show_cell_configuration():
+	get_node("../Interface/Configuration Menu").visible = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

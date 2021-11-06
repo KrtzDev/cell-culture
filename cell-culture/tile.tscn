@@ -16,4 +16,5 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.106367, 0 )
 visible = false
 
 [node name="Cell_enemy" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.101345, 0 )
 visible = false
