@@ -2,7 +2,7 @@
 
 [resource]
 flags_transparent = true
-albedo_color = Color( 0.423529, 0.498039, 0.0352941, 0.521569 )
+albedo_color = Color( 0.00392157, 0.498039, 0.0352941, 0.521569 )
 roughness = 0.17
 refraction_enabled = true
 refraction_scale = 0.01

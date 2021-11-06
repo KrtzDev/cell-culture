@@ -7,14 +7,19 @@ var gridPos = Vector2()
 var cellDivisionsLeft
 var neighbours
 
+
 func come_to_live(mitAmount:int):
 	isAlive = true
-	self.visible = true
+	var cell = self.get_node("Cell")
+	self.get_node("Cell").visible = true
+	
+	#self.get_node("Cell/Mball011").mesh.surface_get_material(0).albedo_color = Color(0.94, 1, 1, 1)
+	
 	cellDivisionsLeft=mitAmount
 
 func die():
 	isAlive = false
-	self.visible = false
+	self.get_node("Cell").visible = false
 
 func get_neighbours():
 	var topLeft

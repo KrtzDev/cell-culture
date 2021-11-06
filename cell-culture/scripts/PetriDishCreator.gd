@@ -1,8 +1,8 @@
-tool
+#tool
 extends Spatial
 
-var gridWidth : int = 30
-var gridHeight : int = 20
+var gridWidth : int = 15
+var gridHeight : int = 10
 
 var hexTile
 var tileSize : float = 0.9

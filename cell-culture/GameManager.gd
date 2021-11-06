@@ -1,14 +1,14 @@
 extends Spatial
 
 var grid = [[]] #list of all tile objects [column][row]
-var livingCells = [] #list of all living cells
-var directions = {"random" : 0, "north" : 1, "east" : 2, "south" : 3, "west" : 4}
 
-var startCoords = Vector2(9,9)
+var livingCells = [] #list of all living player cells
+
+var startCoords = Vector2(7,8)
 var minNeighbours = 1
 var maxNeigbours = 3
-var mitosisAmount = 3
-var direction = "east"
+var mitosisAmount = 4
+var direction = "random"
 
 
 # Called when the node enters the scene tree for the first time.
@@ -28,6 +28,8 @@ func _input(event):
 		for cell in tmpLivingCells:
 			analyze_environment(cell)
 		print("nmbr of cells: ",livingCells.size())
+	if event.is_action_pressed("ui_cancel"):
+		get_tree().quit()
 
 
 #abilities 
