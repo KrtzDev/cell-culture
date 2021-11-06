@@ -22,3 +22,19 @@ func updateText():
 	$"Configuration Menu/Panel/VBoxContainer/mitosis/RichTextLabel".text = "Newly created cells will divide "+str(mitosisAmount)+" times before stopping"
 	$"Configuration Menu/Panel/VBoxContainer/defense/RichTextLabel".text = "Your cells will be taken over by the enemy if there are more than " + str(defense) + " neighbouring enemy cells"
 
+
+func _on_minNeigh_Button_pressed():
+	gameManager.playerStats["minNeighbours"] -= 1
+	updateText()
+
+func _on_maxNeigh_Button_pressed():
+	gameManager.playerStats["maxNeighbours"] += 1
+	updateText()
+
+func _on_mitosis_Button_pressed():
+	gameManager.playerStats["mitosisAmount"] += 5
+	updateText()
+
+func _on_defense_Button_pressed():
+	gameManager.playerStats["defense"] += 1
+	updateText()
