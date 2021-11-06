@@ -1,15 +1,30 @@
 extends Spatial
 
 var grid = [[]] #list of all tile objects [column][row]
+var currRound := 0
+var spawnProtection := 5 #after how many rounds the minNeighbours rule is enforced
+
+var livingCellsEnemy = [] #list of all enemy cells
+var enemyStats = {
+	startCoords = Vector2(9,1),
+	minNeighbours = 1,
+	maxNeighbours = 3,
+	mitosisAmount = 3,
+	direction = "random",
+	defense = 2,
+	enemy = "player"
+	}
 
 var livingCells = [] #list of all living player cells
-
-var startCoords = Vector2(7,8)
-var minNeighbours = 1
-var maxNeigbours = 3
-var mitosisAmount = 4
-var direction = "random"
-
+var playerStats = {
+	startCoords = Vector2(10,18),
+	minNeighbours = 1,
+	maxNeighbours = 3,
+	mitosisAmount = 3,
+	direction = "random",
+	defense = 1,
+	enemy = "com"
+	}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -18,50 +33,108 @@ func _ready():
 	grid = petriDishCreator.columns #get grid list from creator
 	
 	#initialize the starting cell
-	var initialCell = get_cell_from_coords(startCoords)
-	initialCell.come_to_live(mitosisAmount)
+	var initialCell = get_cell_from_coords(playerStats["startCoords"])
+	initialCell.faction = "player"
+	initialCell.come_to_live(playerStats["mitosisAmount"])
 	livingCells.append(initialCell)
+	
+	#initialize the enemy cell
+	var enemyCell = get_cell_from_coords(enemyStats["startCoords"])
+	enemyCell.faction = "com"
+	enemyCell.come_to_live(enemyStats["mitosisAmount"])
+	livingCellsEnemy.append(enemyCell)
 
 func _input(event):
 	if event.is_action_pressed("ui_accept"):
+		currRound += 1
+		print("Round " + str(currRound) + ":")
 		var tmpLivingCells = [] + livingCells
 		for cell in tmpLivingCells:
 			analyze_environment(cell)
 		print("nmbr of cells: ",livingCells.size())
+	
+		var tmpEnemyCells = [] + livingCellsEnemy
+		for cell in tmpEnemyCells:
+			analyze_environment(cell)
+		print("nmbr of enemy cells: ",livingCellsEnemy.size())
+
 	if event.is_action_pressed("ui_cancel"):
 		get_tree().quit()
 
-
 #abilities 
 func analyze_environment(activeCell):
+	#vars
+	var stats
+	if activeCell.faction == "player":
+		stats = playerStats
+	else:
+		stats = enemyStats
+	
+	var startCoords = stats["startCoords"]
+	var minNeighbours = stats["minNeighbours"]
+	var maxNeighbours =  stats["maxNeighbours"]
+	var mitosisAmount = stats["mitosisAmount"]
+	var direction = stats["direction"]
+	var defense = stats["defense"]
+	var enemy = stats["enemy"]
+	
 	var neighbourCoords = activeCell.neighbours
 	
 	var inhabitableCells = []
 	var livingNeighbours = []
+	var enemyNeighbours = []
 	
+	#check neighbouring tiles for inhabitableCells, neighbours and enemies
 	for neighbourCoord in neighbourCoords:
 		var neighbourCell = get_cell_from_coords(neighbourCoord)
 		if neighbourCell.isAlive == false and neighbourCell.isObstacle == false:
 			inhabitableCells.append(neighbourCell)
 		elif neighbourCell.isAlive == true:
 			livingNeighbours.append(neighbourCell)
+		if neighbourCell.faction == stats["enemy"]:
+			enemyNeighbours.append(neighbourCell)
 	
-	var nmbrNeighbours = livingNeighbours.size()		
-	if (nmbrNeighbours <= minNeighbours && livingCells.size()>minNeighbours*2):
+#	print("["+ activeCell.name + "] " + "inhabitable: "+ str(inhabitableCells.size()) + "| living neighbours: " + str(livingNeighbours.size()) + " | enemy neighbours: " + str(enemyNeighbours.size()))
+	
+	
+	#decide whether the current cell gets overtaken by the enemy
+	if enemyNeighbours.size() > defense:	
+		var mitosisStatus = activeCell.cellDivisionsLeft
 		kill_cell(activeCell)
-	elif nmbrNeighbours <= maxNeigbours and inhabitableCells.size() >= 1:
+		activeCell.faction = stats["enemy"]
+		activeCell.come_to_live(mitosisStatus)
+		if activeCell.faction == "player":
+			livingCells.append(activeCell)
+		else:
+			livingCellsEnemy.append(activeCell)
+		return
+	
+	#check if there are not too less and not too many neighbours
+	var nmbrNeighbours = livingNeighbours.size()
+	if (nmbrNeighbours <= minNeighbours && currRound >= spawnProtection):
+		kill_cell(activeCell)
+	elif nmbrNeighbours <= maxNeighbours and inhabitableCells.size() >= 1:
 		if (activeCell.cellDivisionsLeft >= 1):
 			activeCell.cellDivisionsLeft = activeCell.cellDivisionsLeft - 1
 			create_new_cell(activeCell, inhabitableCells)
-	elif nmbrNeighbours >= maxNeigbours:
+	elif nmbrNeighbours >= maxNeighbours:
 		kill_cell(activeCell)
 
 func create_new_cell(activeCell, inhabitableCells):
+	var stats
+	if activeCell.faction == "player":
+		stats = enemyStats
+	else:
+		stats = playerStats
+	
+	var mitosisAmount = stats["mitosisAmount"]
+	var direction = stats["direction"]
 	
 	var newCell
 	
 	randomize()
 	
+	#spawn the new cell in the prefered direction if available
 	if direction != "random":
 		var gridPos = activeCell.gridPos
 		
@@ -141,21 +214,29 @@ func create_new_cell(activeCell, inhabitableCells):
 				newCell=get_cell_from_coords(botRight)
 			else:
 				newCell = inhabitableCells[randi() % inhabitableCells.size()]
-			
+	
+	#if the prefered direction is random spawn on random inhabitable neighbouring cell
 	elif direction == "random":
 		newCell = inhabitableCells[randi() % inhabitableCells.size()]
-		
-		
-	newCell.come_to_live(mitosisAmount)
-	livingCells.append(newCell)
+	
+	#initialize the new cell from the current factions stats
+	newCell.faction = activeCell.faction
+	newCell.come_to_live(stats["mitosisAmount"])
+	if activeCell.faction == "player":
+		livingCells.append(newCell)
+	else:
+		livingCellsEnemy.append(newCell)
 
 func kill_cell(activeCell):
 	activeCell.die()
-	livingCells.erase(activeCell)
+	
+	if activeCell.faction == "player":
+		livingCells.erase(activeCell)
+	else:
+		livingCellsEnemy.erase(activeCell)
 
 
 #helper
 func get_cell_from_coords(coords:Vector2):
-
 	var cell = grid[coords.x][coords.y]
 	return cell

@@ -6,20 +6,26 @@ var isAlive = false
 var gridPos = Vector2()
 var cellDivisionsLeft
 var neighbours
+var faction = "neutral" #neutral, com, player
 
 
 func come_to_live(mitAmount:int):
 	isAlive = true
-	var cell = self.get_node("Cell")
-	self.get_node("Cell").visible = true
 	
-	#self.get_node("Cell/Mball011").mesh.surface_get_material(0).albedo_color = Color(0.94, 1, 1, 1)
+	if faction == "player":
+		var cell = self.get_node("Cell")
+		cell.visible = true
+		
+	elif faction == "com":
+		var cell_enemy = self.get_node("Cell_enemy")
+		cell_enemy.visible = true 
 	
 	cellDivisionsLeft=mitAmount
 
 func die():
 	isAlive = false
 	self.get_node("Cell").visible = false
+	self.get_node("Cell_enemy").visible = false
 
 func get_neighbours():
 	var topLeft
