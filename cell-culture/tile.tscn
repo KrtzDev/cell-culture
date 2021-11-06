@@ -1,15 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Sprites/Hexagon.png" type="Texture" id=1]
-
-[sub_resource type="QuadMesh" id=1]
-
-[sub_resource type="SpatialMaterial" id=2]
-params_billboard_mode = 1
-albedo_texture = ExtResource( 1 )
+[ext_resource path="res://models/hexagonTile.glb" type="PackedScene" id=1]
+[ext_resource path="res://scripts/tileScript.gd" type="Script" id=2]
 
 [node name="Tile" type="Spatial"]
+visible = false
+script = ExtResource( 2 )
 
-[node name="MeshInstance" type="MeshInstance" parent="."]
-mesh = SubResource( 1 )
-material/0 = SubResource( 2 )
+[node name="hexagonTile" parent="." instance=ExtResource( 1 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
