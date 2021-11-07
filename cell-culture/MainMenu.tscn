@@ -14,7 +14,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.266361, 0.389752, 0 )
 [node name="Spatial" type="Spatial" parent="Cell"]
 
 [node name="Camera" type="Camera" parent="Cell/Spatial"]
-transform = Transform( 1, 0, 0, 0, 0.785814, 0.618463, 0, -0.618463, 0.785814, 0.764237, 2.15351, 2.00664 )
+transform = Transform( 1, 0, 0, 0, 0.785814, 0.618463, 0, -0.618463, 0.785814, 1.09421, 2.17828, 1.98715 )
 
 [node name="Control" type="Control" parent="."]
 anchor_right = 1.0

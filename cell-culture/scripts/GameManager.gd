@@ -17,7 +17,7 @@ var livingCellsEnemy = [] #list of all enemy cells
 var enemyStats = {
 	startCoords = Vector2(9,1),
 	minNeighbours = 1,
-	maxNeighbours = 3,
+	maxNeighbours = 2,
 	mitosisAmount = 3,
 	direction = "random",
 	defense = 2,
@@ -118,6 +118,10 @@ func improve_enemy():
 	if enemyStats["defense"] >= 6:
 		enemyStats["defense"] = 5
 	
+	#cap maxNeighbours at 5
+	if enemyStats["maxNeighbours"] >= 6:
+		enemyStats["maxNeighbours"] = 5
+	
 	#attack player if early round and defense is lower or equal to own defense
 	enemyStats["direction"] = "random"
 	
@@ -150,19 +154,21 @@ func analyze_environment(activeCell):
 	var inhabitableCells = []
 	var livingNeighbours = []
 	var enemyNeighbours = []
+	var factionNeighbours = []
 	
 	#check neighbouring tiles for inhabitableCells, neighbours and enemies
 	for neighbourCoord in neighbourCoords:
 		var neighbourCell = get_cell_from_coords(neighbourCoord)
 		if neighbourCell.isAlive == false and neighbourCell.isObstacle == false:
 			inhabitableCells.append(neighbourCell)
-		elif neighbourCell.isAlive == true && neighbourCell.faction == activeCell.faction:
+		if neighbourCell.isAlive == true:
 			livingNeighbours.append(neighbourCell)
 		if neighbourCell.faction == stats["enemy"]:
 			enemyNeighbours.append(neighbourCell)
+		elif neighbourCell.faction == activeCell.faction:
+			factionNeighbours.append(neighbourCell)
 	
 #	print("["+ activeCell.name + "] " + "inhabitable: "+ str(inhabitableCells.size()) + "| living neighbours: " + str(livingNeighbours.size()) + " | enemy neighbours: " + str(enemyNeighbours.size()))
-	
 	
 	#decide whether the current cell gets overtaken by the enemy
 	if enemyNeighbours.size() > defense:	
@@ -176,16 +182,19 @@ func analyze_environment(activeCell):
 			livingCellsEnemy.append(activeCell)
 		return
 	
-	#check if there are not too less and not too many neighbours
+	#check if there are too many neighbours
 	var nmbrNeighbours = livingNeighbours.size()
-	if (nmbrNeighbours <= minNeighbours && currRound >= spawnProtection):
+	if nmbrNeighbours >= maxNeighbours:
 		kill_cell(activeCell)
 	elif nmbrNeighbours <= maxNeighbours and inhabitableCells.size() >= 1:
 		if (activeCell.cellDivisionsLeft >= 1):
 			activeCell.cellDivisionsLeft = activeCell.cellDivisionsLeft - 1
 			create_new_cell(activeCell, inhabitableCells)
-	elif nmbrNeighbours >= maxNeighbours:
+	
+	#check if there are enough friendly neighbours to continue
+	if (factionNeighbours.size() <= minNeighbours && currRound >= spawnProtection):
 		kill_cell(activeCell)
+	
 
 func create_new_cell(activeCell, inhabitableCells):
 	var stats
@@ -196,8 +205,6 @@ func create_new_cell(activeCell, inhabitableCells):
 	
 	var mitosisAmount = stats["mitosisAmount"]
 	var direction = stats["direction"]
-	
-	print(direction)
 	
 	var newCell
 	

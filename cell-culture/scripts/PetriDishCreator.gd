@@ -1,3 +1,4 @@
+tool
 extends Spatial
 
 var gridWidth : int = 20
