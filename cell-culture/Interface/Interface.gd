@@ -25,7 +25,7 @@ func update_round_stats():
 		newText += playerCells
 	
 	newText += "\n\nEnemy Attack: " + str(gameManager.enemyStats["attack"])
-	newText += "\n\nEnemy Defense: " + str(gameManager.enemyStats["defense"])
+	newText += "\nEnemy Defense: " + str(gameManager.enemyStats["defense"])
 	
 	$Stats.text = newText
 
