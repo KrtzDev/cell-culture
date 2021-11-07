@@ -2,13 +2,14 @@ extends Spatial
 
 onready var interface = get_node("../Interface")
 
-var timeBetweenRounds = 0.5 #delay in seconds between each simulated round
+var timeBetweenRounds = 0.75 #delay in seconds between each simulated round
 var roundSteps = 5 #how many rounds are simulated before returning to configuration menu
 var spawnProtection := 11 #after how many rounds the minNeighbours rule is enforced
+var enemyAggro = 5 # from 0-10 set how aggressive the enemy is
 
 var grid = [[]] #list of all tile objects [column][row]
 var currRound = 0 #how many rounds elapsed
-var skillPoints = 1
+var skillPoints = 0
 var isRunning = false #is the simulation running
 
 
@@ -55,8 +56,8 @@ func _ready():
 	show_cell_configuration()
 
 func _input(event):
-	if event.is_action_pressed("ui_accept") && !isRunning:
-		if (!isRunning):
+	if (!isRunning):
+		if (event.is_action_pressed("ui_accept") or event.is_action_pressed("ui_cancel")):
 			toggle_cell_configuration()
 
 func start_simulation():
@@ -77,12 +78,55 @@ func start_simulation():
 		#print("nmbr of enemy cells: ",livingCellsEnemy.size())
 		
 		interface.update_round_stats()
+		
+		if check_game_over():
+			return
+			
 		yield(get_tree().create_timer(timeBetweenRounds),"timeout")
 	
 	isRunning = false
 	skillPoints += 1
+	improve_enemy()
+	
+	#show menu
 	interface.update_menu_text()
 	show_cell_configuration()
+
+func check_game_over():
+	var gameOver = true
+	
+	if livingCells.size() == 0:
+		isRunning = true
+		interface.show_GameOverScreen(false)
+	elif livingCellsEnemy.size() == 0:
+		isRunning = true
+		interface.show_GameOverScreen(true)
+	else:
+		gameOver = false
+	
+	return gameOver
+
+func improve_enemy():
+	#improve random stat
+	var imprStats = ["defense", "maxNeighbours", "mitosisAmount"]
+	var stat = imprStats[randi() % imprStats.size()]
+	
+	print ("Enemy is improving " + stat + " to " + str(enemyStats[stat]+1))
+	enemyStats[stat] += 1
+	
+	#cap defense at 5
+	if enemyStats["defense"] >= 6:
+		enemyStats["defense"] = 5
+	
+	#attack player if early round and defense is lower or equal to own defense
+	enemyStats["direction"] = "random"
+	
+	if enemyStats["defense"]>=playerStats["defense"]:
+		randomize()
+		if (randi()%10+1) <= enemyAggro:
+			enemyStats["direction"] = "south"
+			print("Enemy decides to attack!")
+
 
 #abilities 
 func analyze_environment(activeCell):
@@ -153,6 +197,8 @@ func create_new_cell(activeCell, inhabitableCells):
 	var mitosisAmount = stats["mitosisAmount"]
 	var direction = stats["direction"]
 	
+	print(direction)
+	
 	var newCell
 	
 	randomize()
@@ -192,52 +238,35 @@ func create_new_cell(activeCell, inhabitableCells):
 		
 		if direction == "east":
 			if (get_cell_from_coords(midRight) in inhabitableCells):
-				newCell=get_cell_from_coords(midRight)
-			elif ((get_cell_from_coords(topRight) in inhabitableCells) and (get_cell_from_coords(botRight) in inhabitableCells)):
-				var topBot = [topRight,botRight]
-				newCell=get_cell_from_coords(topBot[randi() % 2])
+				inhabitableCells.append(get_cell_from_coords(midRight))
 			elif (get_cell_from_coords(topRight) in inhabitableCells):
-				newCell=get_cell_from_coords(topRight)
+				inhabitableCells.append(get_cell_from_coords(topRight))
 			elif (get_cell_from_coords(botRight) in inhabitableCells):
-				newCell=get_cell_from_coords(botRight)
-			else:
-				newCell = inhabitableCells[randi() % inhabitableCells.size()]
+				inhabitableCells.append(get_cell_from_coords(botRight))
 					
 		elif direction == "west":
 			if (get_cell_from_coords(midLeft) in inhabitableCells):
-				newCell=get_cell_from_coords(midLeft)
-			elif ((get_cell_from_coords(topLeft) in inhabitableCells) and (get_cell_from_coords(botLeft) in inhabitableCells)):
-				var topBot = [topLeft,botLeft]
-				newCell=get_cell_from_coords(topBot[randi() % 2])
-			elif ((get_cell_from_coords(topLeft) in inhabitableCells)):
-				newCell=get_cell_from_coords(topLeft)
-			elif ((get_cell_from_coords(botLeft) in inhabitableCells)):
-				newCell=get_cell_from_coords(botLeft)
-			else:
-				newCell = inhabitableCells[randi() % inhabitableCells.size()]
+				inhabitableCells.append(get_cell_from_coords(midLeft))
+			elif (get_cell_from_coords(topLeft) in inhabitableCells):
+				inhabitableCells.append(get_cell_from_coords(topLeft))
+			elif (get_cell_from_coords(botLeft) in inhabitableCells):
+				inhabitableCells.append(get_cell_from_coords(botLeft))
 				
 		elif direction == "north":
-			if ((get_cell_from_coords(topRight) in inhabitableCells) and (get_cell_from_coords(topLeft) in inhabitableCells)):
-				var rightLeft = [topRight,topLeft]
-				newCell=get_cell_from_coords(rightLeft[randi() % 2])
+			if (get_cell_from_coords(topLeft) in inhabitableCells):
+				inhabitableCells.append(get_cell_from_coords(topLeft))
 			elif (get_cell_from_coords(topRight) in inhabitableCells):
-				newCell=get_cell_from_coords(topRight)
-			elif ((get_cell_from_coords(topLeft) in inhabitableCells)):
-				newCell=get_cell_from_coords(topLeft)
-			else:
-				newCell = inhabitableCells[randi() % inhabitableCells.size()]
+				inhabitableCells.append(get_cell_from_coords(topRight))
 				
 		elif direction == "south":
-			if ((get_cell_from_coords(botRight) in inhabitableCells) and (get_cell_from_coords(botLeft) in inhabitableCells)):
-				var rightLeft = [botRight,botLeft]
-				newCell=get_cell_from_coords(rightLeft[randi() % 2])
-			elif (get_cell_from_coords(botLeft) in inhabitableCells):
-				newCell=get_cell_from_coords(botLeft)
-			elif ((get_cell_from_coords(botRight) in inhabitableCells)):
-				newCell=get_cell_from_coords(botRight)
-			else:
-				newCell = inhabitableCells[randi() % inhabitableCells.size()]
-	
+			if (get_cell_from_coords(botLeft) in inhabitableCells):
+				inhabitableCells.append(get_cell_from_coords(botLeft))
+			elif (get_cell_from_coords(botRight) in inhabitableCells):
+				inhabitableCells.append(get_cell_from_coords(botRight))
+		
+		#select random from list with additional entries for preferred direction
+		newCell = inhabitableCells[randi() % inhabitableCells.size()]
+		
 	#if the prefered direction is random spawn on random inhabitable neighbouring cell
 	elif direction == "random":
 		newCell = inhabitableCells[randi() % inhabitableCells.size()]
@@ -258,12 +287,10 @@ func kill_cell(activeCell):
 	else:
 		livingCellsEnemy.erase(activeCell)
 
-
 #helper
 func get_cell_from_coords(coords:Vector2):
 	var cell = grid[coords.x][coords.y]
 	return cell
-
 
 #ui
 func toggle_cell_configuration():

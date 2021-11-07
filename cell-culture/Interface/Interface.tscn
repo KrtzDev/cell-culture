@@ -33,18 +33,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Exit_Button" type="Button" parent="Configuration Menu"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -154.765
-margin_top = 20.7652
-margin_right = -20.7651
-margin_bottom = 54.7652
-text = "Back to Main Menu"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Panel" type="Panel" parent="Configuration Menu"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -209,9 +197,49 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Start Simulation"
 
-[connection signal="pressed" from="Configuration Menu/Exit_Button" to="." method="_on_Exit_Button_pressed"]
+[node name="GameOverScreen" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="GameOverScreen"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = 60.0
+margin_top = -102.0
+margin_right = -60.0
+margin_bottom = 135.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="GameOverScreen/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 23.0
+margin_top = 25.0
+text = "You Won!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Exit_Button" type="Button" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -154.765
+margin_top = 20.7652
+margin_right = -20.7651
+margin_bottom = 54.7652
+text = "Back to Main Menu"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="pressed" from="Configuration Menu/Panel/VBoxContainer/minNeighbours/minNeigh_Button" to="." method="_on_minNeigh_Button_pressed"]
 [connection signal="pressed" from="Configuration Menu/Panel/VBoxContainer/maxNeighbours/maxNeigh_Button" to="." method="_on_maxNeigh_Button_pressed"]
 [connection signal="pressed" from="Configuration Menu/Panel/VBoxContainer/mitosis/mitosis_Button" to="." method="_on_mitosis_Button_pressed"]
 [connection signal="pressed" from="Configuration Menu/Panel/VBoxContainer/defense/defense_Button" to="." method="_on_defense_Button_pressed"]
+[connection signal="item_selected" from="Configuration Menu/Panel/VBoxContainer/direction/OptionButton" to="." method="_on_OptionButton_item_selected"]
 [connection signal="pressed" from="Configuration Menu/Panel/VBoxContainer/StartRound/StartRound_Button" to="." method="_on_StartRound_Button_pressed"]
+[connection signal="pressed" from="Exit_Button" to="." method="_on_Exit_Button_pressed"]

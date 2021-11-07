@@ -2,6 +2,8 @@ extends Control
 
 onready var gameManager = get_node("../GameManager")
 
+var directions = ["random","north","east","south","west"]
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	update_menu_text()
@@ -21,6 +23,8 @@ func update_round_stats():
 	else:
 		newText += enemyCells
 		newText += playerCells
+	
+	newText += "\n\nEnemy Defense: " + str(gameManager.enemyStats["defense"])
 	
 	$Stats.text = newText
 
@@ -70,14 +74,26 @@ func update_menu_text():
 	if defense >= 6:
 		$"Configuration Menu/Panel/VBoxContainer/defense/defense_Button".disabled = true
 
+func show_GameOverScreen(win : bool):
+	
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
+	var winText= "You won!"
+	var loseText= "You lost!"
+	
+	if (win == true):
+		$"GameOverScreen/Panel/RichTextLabel".text = winText
+	else:
+		$"GameOverScreen/Panel/RichTextLabel".text = loseText
+	
+	$"Configuration Menu".visible = false
+	$"GameOverScreen".visible = true
+
 #configure dropdown menu
 func add_directions_to_dropdown():
 	var dropdown = $"Configuration Menu/Panel/VBoxContainer/direction/OptionButton"
-	dropdown.add_item("random")
-	dropdown.add_item("north")
-	dropdown.add_item("east")
-	dropdown.add_item("south")
-	dropdown.add_item("west")
+	for dir in directions:
+		dropdown.add_item(dir)
 
 func _on_minNeigh_Button_pressed():
 	gameManager.playerStats["minNeighbours"] -= 1
@@ -105,3 +121,7 @@ func _on_StartRound_Button_pressed():
 
 func _on_Exit_Button_pressed():
 	get_tree().change_scene("res://MainMenu.tscn")
+
+
+func _on_OptionButton_item_selected(index):
+	gameManager.playerStats["direction"] = directions[index]
