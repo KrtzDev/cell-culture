@@ -9,6 +9,7 @@ var neighbours
 var faction = "neutral" #neutral, com, player
 
 
+
 func come_to_live(mitAmount:int):
 	isAlive = true
 	

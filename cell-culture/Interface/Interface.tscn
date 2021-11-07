@@ -11,10 +11,11 @@ __meta__ = {
 }
 
 [node name="Stats" type="RichTextLabel" parent="."]
-margin_left = 29.7356
-margin_top = 34.4881
-margin_right = 159.736
-margin_bottom = 107.488
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 30.0
+margin_top = 25.0
+margin_right = -1.0
 text = "Round: 42069
 
 Player Cells: 420
@@ -32,11 +33,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Exit_Button" type="Button" parent="Configuration Menu"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -154.765
+margin_top = 20.7652
+margin_right = -20.7651
+margin_bottom = 54.7652
+text = "Back to Main Menu"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Panel" type="Panel" parent="Configuration Menu"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 20.0
-margin_top = 20.0
+margin_top = 118.0
 margin_right = -20.0
 margin_bottom = -20.0
 __meta__ = {
@@ -44,136 +57,161 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Configuration Menu/Panel"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -198.0
-margin_top = -255.0
-margin_right = 194.0
-margin_bottom = 255.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 25.0
+margin_top = 25.0
+margin_right = -25.0
+margin_bottom = -25.0
 custom_constants/separation = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Configuration Menu/Panel/VBoxContainer"]
-margin_right = 392.0
-margin_bottom = 76.0
+margin_right = 422.0
+margin_bottom = 42.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Points to spend: 42"
 
 [node name="minNeighbours" type="HBoxContainer" parent="Configuration Menu/Panel/VBoxContainer"]
-margin_top = 86.0
-margin_right = 392.0
-margin_bottom = 163.0
+margin_top = 52.0
+margin_right = 422.0
+margin_bottom = 95.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Configuration Menu/Panel/VBoxContainer/minNeighbours"]
-margin_right = 194.0
-margin_bottom = 77.0
+margin_right = 209.0
+margin_bottom = 43.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Starting from round 11, cells needs minimum X neighbours to stay alive"
 
 [node name="minNeigh_Button" type="Button" parent="Configuration Menu/Panel/VBoxContainer/minNeighbours"]
-margin_left = 198.0
-margin_right = 392.0
-margin_bottom = 77.0
+margin_left = 213.0
+margin_right = 422.0
+margin_bottom = 43.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+disabled = true
 text = "Decrease by 1"
 
 [node name="maxNeighbours" type="HBoxContainer" parent="Configuration Menu/Panel/VBoxContainer"]
-margin_top = 173.0
-margin_right = 392.0
-margin_bottom = 249.0
+margin_top = 105.0
+margin_right = 422.0
+margin_bottom = 148.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Configuration Menu/Panel/VBoxContainer/maxNeighbours"]
-margin_right = 194.0
-margin_bottom = 76.0
+margin_right = 209.0
+margin_bottom = 43.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Cells will die if there are more than X neighbours"
 
 [node name="maxNeigh_Button" type="Button" parent="Configuration Menu/Panel/VBoxContainer/maxNeighbours"]
-margin_left = 198.0
-margin_right = 392.0
-margin_bottom = 76.0
+margin_left = 213.0
+margin_right = 422.0
+margin_bottom = 43.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+disabled = true
 text = "Increase by 1"
 
 [node name="mitosis" type="HBoxContainer" parent="Configuration Menu/Panel/VBoxContainer"]
-margin_top = 259.0
-margin_right = 392.0
-margin_bottom = 336.0
+margin_top = 158.0
+margin_right = 422.0
+margin_bottom = 201.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Configuration Menu/Panel/VBoxContainer/mitosis"]
-margin_right = 194.0
-margin_bottom = 77.0
+margin_right = 209.0
+margin_bottom = 43.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Newly created cells will divide X times before stopping"
 
 [node name="mitosis_Button" type="Button" parent="Configuration Menu/Panel/VBoxContainer/mitosis"]
-margin_left = 198.0
-margin_right = 392.0
-margin_bottom = 77.0
+margin_left = 213.0
+margin_right = 422.0
+margin_bottom = 43.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+disabled = true
 text = "Increase by 5"
 
 [node name="defense" type="HBoxContainer" parent="Configuration Menu/Panel/VBoxContainer"]
-margin_top = 346.0
-margin_right = 392.0
-margin_bottom = 423.0
+margin_top = 211.0
+margin_right = 422.0
+margin_bottom = 253.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Configuration Menu/Panel/VBoxContainer/defense"]
-margin_right = 194.0
-margin_bottom = 77.0
+margin_right = 209.0
+margin_bottom = 42.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Your cells will be taken over by the enemy if there are more than X neighbouring enemy cells"
 
 [node name="defense_Button" type="Button" parent="Configuration Menu/Panel/VBoxContainer/defense"]
-margin_left = 198.0
-margin_right = 392.0
-margin_bottom = 77.0
+margin_left = 213.0
+margin_right = 422.0
+margin_bottom = 42.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+disabled = true
 text = "Increase by 1"
 
 [node name="direction" type="HBoxContainer" parent="Configuration Menu/Panel/VBoxContainer"]
-margin_top = 433.0
-margin_right = 392.0
-margin_bottom = 510.0
+margin_top = 263.0
+margin_right = 422.0
+margin_bottom = 306.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Configuration Menu/Panel/VBoxContainer/direction"]
-margin_right = 194.0
-margin_bottom = 77.0
+margin_right = 209.0
+margin_bottom = 43.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Change the preferred direction for new cells to spawn"
 
 [node name="OptionButton" type="OptionButton" parent="Configuration Menu/Panel/VBoxContainer/direction"]
-margin_left = 198.0
-margin_right = 392.0
-margin_bottom = 77.0
+margin_left = 213.0
+margin_right = 422.0
+margin_bottom = 43.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="VBoxContainer" type="HBoxContainer" parent="Configuration Menu/Panel/VBoxContainer"]
+margin_top = 316.0
+margin_right = 422.0
+margin_bottom = 359.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="StartRound" type="HBoxContainer" parent="Configuration Menu/Panel/VBoxContainer"]
+margin_top = 369.0
+margin_right = 422.0
+margin_bottom = 412.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="StartRound_Button" type="Button" parent="Configuration Menu/Panel/VBoxContainer/StartRound"]
+margin_right = 422.0
+margin_bottom = 43.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Start Simulation"
+
+[connection signal="pressed" from="Configuration Menu/Exit_Button" to="." method="_on_Exit_Button_pressed"]
 [connection signal="pressed" from="Configuration Menu/Panel/VBoxContainer/minNeighbours/minNeigh_Button" to="." method="_on_minNeigh_Button_pressed"]
 [connection signal="pressed" from="Configuration Menu/Panel/VBoxContainer/maxNeighbours/maxNeigh_Button" to="." method="_on_maxNeigh_Button_pressed"]
 [connection signal="pressed" from="Configuration Menu/Panel/VBoxContainer/mitosis/mitosis_Button" to="." method="_on_mitosis_Button_pressed"]
 [connection signal="pressed" from="Configuration Menu/Panel/VBoxContainer/defense/defense_Button" to="." method="_on_defense_Button_pressed"]
+[connection signal="pressed" from="Configuration Menu/Panel/VBoxContainer/StartRound/StartRound_Button" to="." method="_on_StartRound_Button_pressed"]

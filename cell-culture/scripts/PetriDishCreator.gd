@@ -1,4 +1,3 @@
-tool
 extends Spatial
 
 var gridWidth : int = 20
@@ -8,6 +7,8 @@ var hexTile
 var tileSize : float = 0.9
 
 var columns = []
+
+export(NodePath) var tilePath
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
