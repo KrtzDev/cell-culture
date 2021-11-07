@@ -1,17 +1,20 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://cell.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Cell-CultureText.tscn" type="PackedScene" id=2]
+[ext_resource path="res://MainMenu.tres" type="Environment" id=3]
 [ext_resource path="res://scripts/MainMenuScript.gd" type="Script" id=5]
 
 [node name="MainMenu" type="Spatial"]
 script = ExtResource( 5 )
 
 [node name="Cell" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.266361, 0.389752, 0 )
 
 [node name="Spatial" type="Spatial" parent="Cell"]
 
 [node name="Camera" type="Camera" parent="Cell/Spatial"]
-transform = Transform( 1, 0, 0, 0, 0.785814, 0.618463, 0, -0.618463, 0.785814, 0.501034, 1.2385, 1.57656 )
+transform = Transform( 1, 0, 0, 0, 0.785814, 0.618463, 0, -0.618463, 0.785814, 0.764237, 2.15351, 2.00664 )
 
 [node name="Control" type="Control" parent="."]
 anchor_right = 1.0
@@ -73,18 +76,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="Control"]
-margin_left = 50.0
-margin_top = 50.0
-margin_right = 605.0
-margin_bottom = 153.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.0
-text = "Cell Culture"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Cell-CultureText" parent="." instance=ExtResource( 2 )]
+transform = Transform( 0.5, 0, 0, 0, 0.426966, 0.260192, 0, -0.260192, 0.426966, -0.445912, 1.25626, -1.17152 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 0.823978, 0.371991, -0.427414, 0, 0.75432, 0.656507, 0.566622, -0.540947, 0.621543, -2.01439, 2.76457, 2.62198 )
+light_specular = 0.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 3 )
 
 [connection signal="pressed" from="Control/Panel/Play_Button" to="." method="_on_Play_Button_pressed"]
 [connection signal="pressed" from="Control/Panel/Exit_Button" to="." method="_on_Exit_Button_pressed"]
