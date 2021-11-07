@@ -36,6 +36,7 @@ func update_menu_text():
 	var mitosisAmount = stats["mitosisAmount"]
 	var direction = stats["direction"]
 	var defense = stats["defense"]
+	var attack = stats["attack"]
 	var spawnProtection = gameManager.spawnProtection
 	var skillPoints = gameManager.skillPoints
 	
@@ -45,7 +46,8 @@ func update_menu_text():
 	$"Configuration Menu/Panel/VBoxContainer/minNeighbours/RichTextLabel".text = "Starting from round "+ str(spawnProtection) +", your cells need minimum " + str(minNeighbours) + " neighbours to stay alive"
 	$"Configuration Menu/Panel/VBoxContainer/maxNeighbours/RichTextLabel".text = "Your cells will die if there are more than " + str(maxNeighbours) + " neighbours"
 	$"Configuration Menu/Panel/VBoxContainer/mitosis/RichTextLabel".text = "Newly created cells will divide "+str(mitosisAmount)+" times before stopping"
-	$"Configuration Menu/Panel/VBoxContainer/defense/RichTextLabel".text = "Your cells will be taken over by the enemy if there are more than " + str(defense) + " neighbouring enemy cells"
+	$"Configuration Menu/Panel/VBoxContainer/defense/RichTextLabel".text = "Your cells will be taken over by the enemy if your defense is too low"
+	$"Configuration Menu/Panel/VBoxContainer/attack/RichTextLabel".text = "Increase your chance to overtake enemy cells"
 	
 	if gameManager.currRound == 0:
 		$"Configuration Menu/Panel/VBoxContainer/StartRound/StartRound_Button".text = "Start Simulation"
@@ -59,11 +61,13 @@ func update_menu_text():
 		$"Configuration Menu/Panel/VBoxContainer/maxNeighbours/maxNeigh_Button".disabled = true
 		$"Configuration Menu/Panel/VBoxContainer/mitosis/mitosis_Button".disabled = true
 		$"Configuration Menu/Panel/VBoxContainer/defense/defense_Button".disabled = true
+		$"Configuration Menu/Panel/VBoxContainer/attack/Attack_Button".disabled = true
 	else:
 		$"Configuration Menu/Panel/VBoxContainer/minNeighbours/minNeigh_Button".disabled = false
 		$"Configuration Menu/Panel/VBoxContainer/maxNeighbours/maxNeigh_Button".disabled = false
 		$"Configuration Menu/Panel/VBoxContainer/mitosis/mitosis_Button".disabled = false
 		$"Configuration Menu/Panel/VBoxContainer/defense/defense_Button".disabled = false
+		$"Configuration Menu/Panel/VBoxContainer/attack/Attack_Button".disabled = false
 	
 	if minNeighbours <= 1:
 		$"Configuration Menu/Panel/VBoxContainer/minNeighbours/minNeigh_Button".disabled = true
@@ -73,6 +77,8 @@ func update_menu_text():
 		$"Configuration Menu/Panel/VBoxContainer/mitosis/mitosis_Button".disabled = true
 	if defense >= 6:
 		$"Configuration Menu/Panel/VBoxContainer/defense/defense_Button".disabled = true
+	if attack >= 6:
+		$"Configuration Menu/Panel/VBoxContainer/attack/Attack_Button".disabled = true
 
 func show_GameOverScreen(win : bool):
 	

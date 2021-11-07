@@ -37,7 +37,7 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 20.0
-margin_top = 118.0
+margin_top = 100.0
 margin_right = -20.0
 margin_bottom = -20.0
 __meta__ = {
@@ -58,21 +58,21 @@ __meta__ = {
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Configuration Menu/Panel/VBoxContainer"]
 margin_right = 422.0
-margin_bottom = 42.0
+margin_bottom = 38.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Points to spend: 42"
 
 [node name="minNeighbours" type="HBoxContainer" parent="Configuration Menu/Panel/VBoxContainer"]
-margin_top = 52.0
+margin_top = 48.0
 margin_right = 422.0
-margin_bottom = 95.0
+margin_bottom = 87.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Configuration Menu/Panel/VBoxContainer/minNeighbours"]
 margin_right = 209.0
-margin_bottom = 43.0
+margin_bottom = 39.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Starting from round 11, cells needs minimum X neighbours to stay alive"
@@ -80,22 +80,22 @@ text = "Starting from round 11, cells needs minimum X neighbours to stay alive"
 [node name="minNeigh_Button" type="Button" parent="Configuration Menu/Panel/VBoxContainer/minNeighbours"]
 margin_left = 213.0
 margin_right = 422.0
-margin_bottom = 43.0
+margin_bottom = 39.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
 text = "Decrease by 1"
 
 [node name="maxNeighbours" type="HBoxContainer" parent="Configuration Menu/Panel/VBoxContainer"]
-margin_top = 105.0
+margin_top = 97.0
 margin_right = 422.0
-margin_bottom = 148.0
+margin_bottom = 136.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Configuration Menu/Panel/VBoxContainer/maxNeighbours"]
 margin_right = 209.0
-margin_bottom = 43.0
+margin_bottom = 39.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Cells will die if there are more than X neighbours"
@@ -103,22 +103,22 @@ text = "Cells will die if there are more than X neighbours"
 [node name="maxNeigh_Button" type="Button" parent="Configuration Menu/Panel/VBoxContainer/maxNeighbours"]
 margin_left = 213.0
 margin_right = 422.0
-margin_bottom = 43.0
+margin_bottom = 39.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-text = "Increase by 1"
+text = "Increase by 1 "
 
 [node name="mitosis" type="HBoxContainer" parent="Configuration Menu/Panel/VBoxContainer"]
-margin_top = 158.0
+margin_top = 146.0
 margin_right = 422.0
-margin_bottom = 201.0
+margin_bottom = 185.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Configuration Menu/Panel/VBoxContainer/mitosis"]
 margin_right = 209.0
-margin_bottom = 43.0
+margin_bottom = 39.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Newly created cells will divide X times before stopping"
@@ -126,22 +126,22 @@ text = "Newly created cells will divide X times before stopping"
 [node name="mitosis_Button" type="Button" parent="Configuration Menu/Panel/VBoxContainer/mitosis"]
 margin_left = 213.0
 margin_right = 422.0
-margin_bottom = 43.0
+margin_bottom = 39.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-text = "Increase by 5"
+text = "Increase by 5 "
 
 [node name="defense" type="HBoxContainer" parent="Configuration Menu/Panel/VBoxContainer"]
-margin_top = 211.0
+margin_top = 195.0
 margin_right = 422.0
-margin_bottom = 253.0
+margin_bottom = 234.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Configuration Menu/Panel/VBoxContainer/defense"]
 margin_right = 209.0
-margin_bottom = 42.0
+margin_bottom = 39.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Your cells will be taken over by the enemy if there are more than X neighbouring enemy cells"
@@ -149,22 +149,45 @@ text = "Your cells will be taken over by the enemy if there are more than X neig
 [node name="defense_Button" type="Button" parent="Configuration Menu/Panel/VBoxContainer/defense"]
 margin_left = 213.0
 margin_right = 422.0
-margin_bottom = 42.0
+margin_bottom = 39.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-text = "Increase by 1"
+text = "Increase by 1 "
+
+[node name="attack" type="HBoxContainer" parent="Configuration Menu/Panel/VBoxContainer"]
+margin_top = 244.0
+margin_right = 422.0
+margin_bottom = 283.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Configuration Menu/Panel/VBoxContainer/attack"]
+margin_right = 209.0
+margin_bottom = 39.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Your cells will be taken over by the enemy if there are more than X neighbouring enemy cells"
+
+[node name="Attack_Button" type="Button" parent="Configuration Menu/Panel/VBoxContainer/attack"]
+margin_left = 213.0
+margin_right = 422.0
+margin_bottom = 39.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+text = "Increase by 1 "
 
 [node name="direction" type="HBoxContainer" parent="Configuration Menu/Panel/VBoxContainer"]
-margin_top = 263.0
+margin_top = 293.0
 margin_right = 422.0
-margin_bottom = 306.0
+margin_bottom = 332.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Configuration Menu/Panel/VBoxContainer/direction"]
 margin_right = 209.0
-margin_bottom = 43.0
+margin_bottom = 39.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Change the preferred direction for new cells to spawn"
@@ -172,27 +195,27 @@ text = "Change the preferred direction for new cells to spawn"
 [node name="OptionButton" type="OptionButton" parent="Configuration Menu/Panel/VBoxContainer/direction"]
 margin_left = 213.0
 margin_right = 422.0
-margin_bottom = 43.0
+margin_bottom = 39.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="VBoxContainer" type="HBoxContainer" parent="Configuration Menu/Panel/VBoxContainer"]
-margin_top = 316.0
+margin_top = 342.0
 margin_right = 422.0
-margin_bottom = 359.0
+margin_bottom = 381.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="StartRound" type="HBoxContainer" parent="Configuration Menu/Panel/VBoxContainer"]
-margin_top = 369.0
+margin_top = 391.0
 margin_right = 422.0
-margin_bottom = 412.0
+margin_bottom = 430.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="StartRound_Button" type="Button" parent="Configuration Menu/Panel/VBoxContainer/StartRound"]
 margin_right = 422.0
-margin_bottom = 43.0
+margin_bottom = 39.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Start Simulation"

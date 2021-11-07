@@ -20,6 +20,7 @@ var enemyStats = {
 	maxNeighbours = 2,
 	mitosisAmount = 3,
 	direction = "random",
+	attack = 2,
 	defense = 2,
 	enemy = "player"
 	}
@@ -31,6 +32,7 @@ var playerStats = {
 	maxNeighbours = 3,
 	mitosisAmount = 3,
 	direction = "random",
+	attack = 1,
 	defense = 1,
 	enemy = "com"
 	}
@@ -108,19 +110,23 @@ func check_game_over():
 
 func improve_enemy():
 	#improve random stat
-	var imprStats = ["defense", "maxNeighbours", "mitosisAmount"]
+	var imprStats = ["attack", "defense", "maxNeighbours", "mitosisAmount"]
 	var stat = imprStats[randi() % imprStats.size()]
 	
 	print ("Enemy is improving " + stat + " to " + str(enemyStats[stat]+1))
 	enemyStats[stat] += 1
 	
-	#cap defense at 5
-	if enemyStats["defense"] >= 6:
-		enemyStats["defense"] = 5
+	#cap defense at 6
+	if enemyStats["defense"] >= 7:
+		enemyStats["defense"] = 6
 	
-	#cap maxNeighbours at 5
-	if enemyStats["maxNeighbours"] >= 6:
-		enemyStats["maxNeighbours"] = 5
+	#cap attack at 5
+	if enemyStats["attack"] >= 6:
+		enemyStats["attack"] = 5
+	
+	#cap maxNeighbours at 6
+	if enemyStats["maxNeighbours"] >= 7:
+		enemyStats["maxNeighbours"] = 6
 	
 	#attack player if early round and defense is lower or equal to own defense
 	enemyStats["direction"] = "random"
@@ -171,7 +177,14 @@ func analyze_environment(activeCell):
 #	print("["+ activeCell.name + "] " + "inhabitable: "+ str(inhabitableCells.size()) + "| living neighbours: " + str(livingNeighbours.size()) + " | enemy neighbours: " + str(enemyNeighbours.size()))
 	
 	#decide whether the current cell gets overtaken by the enemy
-	if enemyNeighbours.size() > defense:	
+	var enemyNeighbourAttack
+	if (stats == playerStats):
+		enemyNeighbourAttack=enemyStats["attack"]
+	else:
+		enemyNeighbourAttack=playerStats["attack"]
+	
+	if ((enemyNeighbours.size()*enemyNeighbourAttack*0.5) > (defense*2)):
+		print("cell gets overtaken by " + stats["enemy"])
 		var mitosisStatus = activeCell.cellDivisionsLeft
 		kill_cell(activeCell)
 		activeCell.faction = stats["enemy"]
