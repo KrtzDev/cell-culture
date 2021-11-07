@@ -12,9 +12,9 @@ script = ExtResource( 2 )
 [node name="HexTile" parent="." instance=ExtResource( 1 )]
 
 [node name="Cell" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.106367, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.267082, 0 )
 visible = false
 
 [node name="Cell_enemy" parent="." instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.101345, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0842488, 0 )
 visible = false

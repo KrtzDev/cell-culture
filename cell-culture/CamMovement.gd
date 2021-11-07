@@ -1,7 +1,7 @@
 extends KinematicBody
 
 var velocity = Vector3.ZERO
-var speed = .1
+var speed = .07
 
 onready var player_camera = $"Camera"
 var spin = 0.1
@@ -30,7 +30,17 @@ func movement(_delta):
 		dir += transform.basis.x
 	elif Input.is_action_pressed("ui_right"):
 		dir -= transform.basis.x
+		
+	if Input.is_action_pressed("raise"):
+		dir += transform.basis.y
+	elif Input.is_action_pressed("lower"):
+		dir -= transform.basis.y
 
+	if Input.is_action_just_pressed("sprint"):
+		speed *= 2.5
+	elif Input.is_action_just_released("sprint"):
+		speed /= 2.5
+	
 	velocity = dir.normalized() * speed
 
 func _input(event):
@@ -40,5 +50,5 @@ func _input(event):
 		player_camera.rotate_x(lerp(0,spin, event.relative.y*(mouse_sensitivity * 0.01) ))
 
 		var curr_rot = player_camera.rotation_degrees
-		curr_rot.x = clamp(curr_rot.x,-60,60)
+		curr_rot.x = clamp(curr_rot.x,-80,80)
 		player_camera.rotation_degrees = curr_rot

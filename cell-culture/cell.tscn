@@ -1,15 +1,23 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://models/cell/Cell.glb" type="PackedScene" id=1]
 [ext_resource path="res://models/shader/cellCore.tres" type="Material" id=2]
-[ext_resource path="res://models/shader/greenCell.tres" type="Material" id=3]
+[ext_resource path="res://models/shader/Cell.gdshader" type="Shader" id=3]
 [ext_resource path="res://models/shader/mitochondria.tres" type="Material" id=4]
 [ext_resource path="res://models/shader/cellDetails.tres" type="Material" id=5]
 
+[sub_resource type="ShaderMaterial" id=1]
+render_priority = 1
+shader = ExtResource( 3 )
+shader_param/Color = Color( 0.560784, 0.682353, 0.168627, 0.439216 )
+shader_param/strength = 10.0
+shader_param/Roughness = 0.17
+
 [node name="Cell" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.389752, 0 )
 
 [node name="Icosphere004" parent="." index="0"]
-material/0 = ExtResource( 3 )
+material/0 = SubResource( 1 )
 material/1 = ExtResource( 2 )
 material/2 = ExtResource( 4 )
 material/3 = ExtResource( 5 )
